@@ -7,9 +7,37 @@ import java.io.File;
 import java.io.FileFilter;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.regex.Pattern;
 
+/**
+ * Android如何实现获取手机CPU的温度?
+ * https://www.jianshu.com/p/605ee16e490f
+ *
+ * android性能测试中各种数据的获取方式
+ * https://blog.csdn.net/itfootball/article/details/44040801
+ */
 public class SystemInfo {
+
+    public static String getCPUABI() {
+        String CPUABI = null;
+        if (CPUABI == null) {
+            try {
+                String os_cpuabi = new BufferedReader(new InputStreamReader(Runtime.getRuntime().exec("getprop ro.product.cpu.abi").getInputStream())).readLine();
+                if (os_cpuabi.contains("x86")) {
+                    CPUABI = "x86";
+                } else if (os_cpuabi.contains("armeabi-v7a") || os_cpuabi.contains("arm64-v8a")) {
+                    CPUABI = "armeabi-v7a";
+                } else {
+                    CPUABI = "armeabi";
+                }
+            } catch (Exception e) {
+                CPUABI = "armeabi";
+            }
+        }
+        return CPUABI;
+    }
+
 
     public static String getCpuTemp() {
         String temp = "Unknow";

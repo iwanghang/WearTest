@@ -18,17 +18,11 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.regex.Pattern;
 
-/**
- * Android如何实现获取手机CPU的温度?
- * https://www.jianshu.com/p/605ee16e490f
- *
- * android性能测试中各种数据的获取方式
- * https://blog.csdn.net/itfootball/article/details/44040801
- */
 public class MainActivity extends AppCompatActivity {
 
     private static TextView text_info_01;
     private static TextView text_info_02;
+    private static TextView text_info_03;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,11 +52,16 @@ public class MainActivity extends AppCompatActivity {
                 text_info_02.setText("电池温度 --> " + batteryTemp);
             }
         });
+        text_info_03 = findViewById(R.id.text_info_03);
+
 
         String cpuTemp = SystemInfo.getCpuTemp();
         String batteryTemp = SystemInfo.getBatteryTemp();
         text_info_01.setText("Cpu温度 --> " + cpuTemp);
         text_info_02.setText("电池温度 --> " + batteryTemp);
+        String cpuApi = SystemInfo.getCPUABI();
+        text_info_03.setText("Cpu架构 --> " + cpuApi);
+
     }
 
 
