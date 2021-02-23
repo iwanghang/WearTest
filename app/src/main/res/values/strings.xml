@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">WearTest</string>
+
+    <string name="system_app">系统应用</string>
+    <string name="user_app">第三方应用</string>
+    <string name="title_white_list">白名单</string>
 </resources>

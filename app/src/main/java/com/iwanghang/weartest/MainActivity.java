@@ -2,10 +2,12 @@ package com.iwanghang.weartest;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.iwanghang.weartest.whUtil.SystemInfo;
@@ -23,6 +25,7 @@ public class MainActivity extends AppCompatActivity {
     private static TextView text_info_01;
     private static TextView text_info_02;
     private static TextView text_info_03;
+    private static Button text_app_list;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,7 +56,15 @@ public class MainActivity extends AppCompatActivity {
             }
         });
         text_info_03 = findViewById(R.id.text_info_03);
-
+        text_app_list = findViewById(R.id.text_app_list);
+        text_app_list.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent();
+                intent.setClass(MainActivity.this, AppsActivity.class);
+                startActivity(intent);
+            }
+        });
 
         String cpuTemp = SystemInfo.getCpuTemp();
         String batteryTemp = SystemInfo.getBatteryTemp();
@@ -63,7 +74,5 @@ public class MainActivity extends AppCompatActivity {
         text_info_03.setText("Cpu架构 --> " + cpuApi);
 
     }
-
-
 
 }

@@ -26,5 +26,11 @@
         android:layout_height="wrap_content"
         android:text="Hello World!"
         android:textSize="28sp" />
+    <Button
+        android:id="@+id/text_app_list"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="AppList"
+        android:textSize="34sp" />
 
 </LinearLayout>

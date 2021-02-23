@@ -7,4 +7,24 @@
     <color name="teal_700">#FF018786</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+
+    <color name="divider">#cee9e9e9</color>
+    <color name="colorAccent">#009688</color>
+
+    <color name="primary_text">#212121</color>
+    <color name="secondary_text">#727272</color>
+
+    //bigbangBackgroundColor
+    <color name="back_black">#000000</color>
+    <color name="back_green">#dcedc8</color>
+    <color name="back_cyan">#b2ebf2</color>
+    <color name="back_pink">#f8bbd0</color>
+    <color name="back_ingo">#c5cae9</color>
+    <color name="back_blue">#d0d9ff</color>
+    <color name="back_bluegreen">#b2dfdb</color>
+    <color name="back_oringe">#ffccbc</color>
+    <color name="back_purple">#e1bee7</color>
+    <color name="back_brown">#d7ccc8</color>
+    <color name="back_grey">#cfd8dc</color>
+
 </resources>
