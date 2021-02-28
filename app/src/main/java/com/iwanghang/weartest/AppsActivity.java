@@ -6,6 +6,7 @@ import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.TextView;
@@ -72,12 +73,14 @@ public class AppsActivity extends AppCompatActivity {
     private RecyclerView mAppListView;
     private AppListAdapter mAppAdapter;
     private List<AppListAdapter.ApplicationInfoWrap> applicationInfos = new ArrayList<>();
-    private List<AppListAdapter.ApplicationInfoWrap> mCanOpenApplicationInfos;
-    private List<AppListAdapter.ApplicationInfoWrap> mShowApplicationInfos;
+    private List<AppListAdapter.ApplicationInfoWrap> mCanOpenApplicationInfos = new ArrayList<>();
+    private List<AppListAdapter.ApplicationInfoWrap> mShowApplicationInfos = new ArrayList<>();
+    private List<AppListAdapter.ApplicationInfoWrap> mShowApplicationInfosTemp = new ArrayList<>();
     private void queryFilterAppInfo() {
         PackageManager pm = this.getPackageManager();
         // 查询所有已经安装的应用程序
-        List<ApplicationInfo> appInfos= pm.getInstalledApplications(PackageManager.GET_UNINSTALLED_PACKAGES);// GET_UNINSTALLED_PACKAGES代表已删除，但还有安装目录的
+        // GET_UNINSTALLED_PACKAGES 代表已删除，但还有安装目录的
+        List<ApplicationInfo> appInfos= pm.getInstalledApplications(PackageManager.GET_UNINSTALLED_PACKAGES);
         // List<ApplicationInfo> applicationInfos=new ArrayList<>();
 
         // 创建一个类别为CATEGORY_LAUNCHER的该包名的Intent
@@ -103,21 +106,42 @@ public class AppsActivity extends AppCompatActivity {
 //            if (allowPackages.contains(app.packageName)){
 //                applicationInfos.add(app);
 //            }
-
             AppListAdapter.ApplicationInfoWrap wrap = new AppListAdapter.ApplicationInfoWrap();
             wrap.applicationInfo = app;
             if (allowPackages.contains(app.packageName)) {
                 applicationInfos.add(wrap);
             }
             applicationInfos.add(wrap);
-
         }
         mCanOpenApplicationInfos = applicationInfos;
-        mShowApplicationInfos = mCanOpenApplicationInfos;
+
+        // 只需要显示第三方应用
+        for (AppListAdapter.ApplicationInfoWrap a : mCanOpenApplicationInfos) {
+            if ((a.applicationInfo.flags & ApplicationInfo.FLAG_SYSTEM) <= 0){
+                Log.d("byWh", "第三方应用: " + a.applicationInfo.toString());
+                mShowApplicationInfos.add(a);
+            } else {
+                Log.d("byWh", "系统应用: " + a.applicationInfo.toString());
+            }
+        }
+
+        // 需要显示所有应用
+//        mShowApplicationInfos = mCanOpenApplicationInfos;
+
+        // mShowApplicationInfos 过滤重复
+        mShowApplicationInfosTemp.addAll(mShowApplicationInfos);
+        mShowApplicationInfos.clear();
+        for (AppListAdapter.ApplicationInfoWrap a : mShowApplicationInfosTemp) {
+            if (!mShowApplicationInfos.contains(a)) {
+                Log.d("byWh", "唯一: " + a.applicationInfo.toString());
+                mShowApplicationInfos.add(a);
+            } else {
+                Log.d("byWh", "重复: " + a.applicationInfo.toString());
+            }
+        }
     }
 
     private void initAppList() {
-
         mAppListView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
         DividerItemDecoration divider = new DividerItemDecoration(this, DividerItemDecoration.VERTICAL_LIST);
         divider.setDivider(this.getResources().getDrawable(R.drawable.situation_divider));
@@ -131,7 +155,7 @@ public class AppsActivity extends AppCompatActivity {
                 if (position < 0 || position >= mShowApplicationInfos.size()) {
                     return;
                 }
-                int size=mSelectedApplicationInfos.size();
+                int size = mSelectedApplicationInfos.size();
                 final AppListAdapter.ApplicationInfoWrap select = mShowApplicationInfos.get(position);
                 select.isSelected = isChecked;
                 if (isChecked) {

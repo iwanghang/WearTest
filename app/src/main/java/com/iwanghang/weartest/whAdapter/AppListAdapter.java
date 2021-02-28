@@ -22,8 +22,7 @@ import com.iwanghang.weartest.R;
 
 import java.util.List;
 
-public class AppListAdapter extends RecyclerView.Adapter
-{
+public class AppListAdapter extends RecyclerView.Adapter {
 
     private List<ApplicationInfoWrap> mApplicationInfos;
 
@@ -31,8 +30,7 @@ public class AppListAdapter extends RecyclerView.Adapter
     private OnItemClickListener mListener;
     private boolean isEditMode=false;
 
-    public AppListAdapter(Context context)
-    {
+    public AppListAdapter(Context context) {
         mContext=context;
     }
 
@@ -69,15 +67,16 @@ public class AppListAdapter extends RecyclerView.Adapter
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View convertView= LayoutInflater.from(mContext).inflate(R.layout.item_app_list, null);
-        AppViewHolder holder=new AppViewHolder(convertView);
+        View convertView = LayoutInflater.from(mContext).inflate(R.layout.item_app_list, null);
+        AppViewHolder holder = new AppViewHolder(convertView);
         return holder;
     }
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder viewHolder, final int position) {
-        final AppViewHolder holder= (AppViewHolder) viewHolder;
-        Drawable drawable=mApplicationInfos.get(position).applicationInfo.loadIcon(mContext.getPackageManager());
+        final AppViewHolder holder = (AppViewHolder) viewHolder;
+
+        Drawable drawable = mApplicationInfos.get(position).applicationInfo.loadIcon(mContext.getPackageManager());
         if (drawable!=null) {
             holder.mAppIcon.setImageDrawable(drawable);
         }
