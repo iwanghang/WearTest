@@ -81,12 +81,6 @@ public class AppListAdapter extends RecyclerView.Adapter {
             holder.mAppIcon.setImageDrawable(drawable);
         }
         holder.mAppName.setText(mApplicationInfos.get(position).applicationInfo.loadLabel(mContext.getPackageManager()));
-        holder.mRoot.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                holder.mAppCheck.setChecked(!holder.mAppCheck.isChecked());
-            }
-        });
         if((mApplicationInfos.get(position).applicationInfo.flags & ApplicationInfo.FLAG_SYSTEM) <= 0)//排除系统应用
         {
             holder.mAppDescribe.setText(R.string.user_app);
@@ -100,57 +94,13 @@ public class AppListAdapter extends RecyclerView.Adapter {
         }
         holder.mAppCheck.setOnCheckedChangeListener(null);
         holder.mTriggerMode.setOnItemSelectedListener(null);
-//		holder.mAppCheck.setChecked(!mApplicationInfos.get(position).isSelected);
-//		holder.mTriggerMode.setSelection(mApplicationInfos.get(position).selection>0?0:1);
         holder.mAppCheck.setChecked(mApplicationInfos.get(position).isSelected);
         holder.mTriggerMode.setSelection(mApplicationInfos.get(position).selection);
-        holder.mAppCheck.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (mListener!=null){
-                    mListener.onItemClick(position,isChecked);
-                }
-            }
-        });
-        holder.mTriggerMode.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int secection, long id) {
-                if (mListener!=null) {
-                    mListener.onItemSpinnerChanged(position, secection);
-                }
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-            }
-        });
         holder.mRoot.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (isEditMode) {
-                    holder.mAppCheck.setChecked(!holder.mAppCheck.isChecked());
-                }else {
-                    holder.mTriggerMode.performClick();
-                }
-            }
-        });
-        holder.mRoot.setOnLongClickListener(new View.OnLongClickListener() {
-            @Override
-            public boolean onLongClick(View v) {
-                if (mListener!=null) {
-                    mListener.onLongClick(position);
-                }
-                return true;
-            }
-        });
-
-//		holder.mAppCheck.setChecked(mApplicationInfos.get(position).isSelected);
-//		holder.mTriggerMode.setSelection(mApplicationInfos.get(position).selection);
-        holder.mAppIcon.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
                 String packageName = mApplicationInfos.get(position).applicationInfo.packageName;
-                Toast.makeText(mContext, "TTTTTTTTT: " + packageName, Toast.LENGTH_SHORT).show();
+                Toast.makeText(mContext, "packageName: " + packageName, Toast.LENGTH_SHORT).show();
                 launchAPK(packageName);
             }
         });
@@ -179,12 +129,12 @@ public class AppListAdapter extends RecyclerView.Adapter {
 
         public AppViewHolder(View itemView) {
             super(itemView);
-            mRoot=itemView;
-            mAppName=(TextView) itemView.findViewById(R.id.app_name);
-            mAppIcon=(ImageView) itemView.findViewById(R.id.app_icon);
-            mAppDescribe=(TextView) itemView.findViewById(R.id.app_name_describe);
-            mAppCheck=(CheckBox) itemView.findViewById(R.id.app_check);
-            mTriggerMode= (Spinner) itemView.findViewById(R.id.spinner);
+            mRoot = itemView;
+            mAppName = (TextView) itemView.findViewById(R.id.app_name);
+            mAppIcon = (ImageView) itemView.findViewById(R.id.app_icon);
+            mAppDescribe = (TextView) itemView.findViewById(R.id.app_name_describe);
+            mAppCheck = (CheckBox) itemView.findViewById(R.id.app_check);
+            mTriggerMode = (Spinner) itemView.findViewById(R.id.spinner);
         }
     }
 
